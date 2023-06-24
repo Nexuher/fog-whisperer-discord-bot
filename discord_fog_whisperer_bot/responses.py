@@ -9,8 +9,9 @@ def on_message(message):
     return response 
 
 def randSurvPerksDefault(message):
-    username = message.author.display_name # Retrieving username
-    response = "List of the perks for this match: \n"
+    username = message.author.mention # Retrieving username
+    
+    response = (f"{username} List of the perks for this match: \n")
 
     possibleResponses = [
         'Dark Sense',
@@ -36,8 +37,54 @@ def randSurvPerksDefault(message):
     ]
 
     for x in range(4):
-        perkNumber = random.randint(0, len(possibleResponses) - 1)
-        response += possibleResponses[perkNumber] + "\n"
+        sizeAfterDeleting = len(possibleResponses) - 1
+
+        perkNumber = random.randint(0, sizeAfterDeleting) # Randomising a number in list, to pick a perk
+
+        response += "-> " + possibleResponses[perkNumber] + "\n"
+
+        possibleResponses.remove(possibleResponses[perkNumber]) # Removing added items in case the number would duplicate
+        sizeAfterDeleting -= 1
+
+        x += 1
+
+    return response
+
+def randKillerPerksDefault(message):
+    username = message.author.mention # Retrieving username
+    
+    response = (f"{username} List of the perks for this match: \n")
+
+    possibleResponses = [
+        'Bitter Murmur',
+        'Claustrophobia',
+        'Deerstalker',
+        'Distressing',
+        'Fearmonger',
+        'Hex: No One Escapes Death',
+        'Hex: Thrill of the Hunt',
+        'Insidious',
+        'Iron Grasp',
+        'Jolt',
+        'Monstrous Shrine',
+        'Scourge Hook',
+        'Shattered Hope',
+        'Sloppy Butcher',
+        'Spies from the Shadows',
+        'Unrelenting',
+        'Whispers',
+    ]
+
+    for x in range(4):
+        sizeAfterDeleting = len(possibleResponses) - 1
+
+        perkNumber = random.randint(0, sizeAfterDeleting) # Randomising a number in list, to pick a perk
+
+        response += "-> " + possibleResponses[perkNumber] + "\n"
+
+        possibleResponses.remove(possibleResponses[perkNumber]) # Removing added items in case the number would duplicate
+        sizeAfterDeleting -= 1
+
         x += 1
 
     return response
@@ -66,5 +113,8 @@ def handle_response(message) -> str:
 
     if p_message == '!fw-randsurvperksdefault':
         return randSurvPerksDefault(message)
+    
+    if p_message == '!fw-randkillerperksdefault':
+        return randKillerPerksDefault(message)
     
     return 'incorrect command'

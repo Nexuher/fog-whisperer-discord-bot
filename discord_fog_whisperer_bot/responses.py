@@ -3,15 +3,15 @@ import discord
 import bot
 
 def on_message(message): 
-    username = message.author.display_name # Retrieving username
+    username = message.author.mention # Retrieving username
 
-    response = (f'Welcome {username}!\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!')
+    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "!fw-" and following it with you request, my current commands are:\n-> hello\n-> roll\n-> roll-4\n-> randSurvPerksDefault\n-> randKillerPerksDefault\n\nupdaGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur\n\n**See you in the fog!**')
     return response 
 
 def randSurvPerksDefault(message):
     username = message.author.mention # Retrieving username
     
-    response = (f"{username} List of the perks for this match: \n")
+    response = (f"{username} List of the Surv perks for this match: \n")
 
     possibleResponses = [
         'Dark Sense',
@@ -53,7 +53,7 @@ def randSurvPerksDefault(message):
 def randKillerPerksDefault(message):
     username = message.author.mention # Retrieving username
     
-    response = (f"{username} List of the perks for this match: \n")
+    response = (f"{username} List of the Killer perks for this match: \n")
 
     possibleResponses = [
         'Bitter Murmur',

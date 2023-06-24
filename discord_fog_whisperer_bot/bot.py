@@ -43,10 +43,10 @@ def run_bot():
         if user_message[0] == '?':
             user_message = user_message[1:] 
             await send_message(message_object, user_message, is_private=True)
-        elif user_message[0] == '!':
+        elif user_message[0:4] == '!fw-':
             message_to_send = responses.handle_response(message_object) 
             await send_message(message_object, message_to_send, is_private=False)
         else:
-            print('Skipping message')
+            print('Not Related To Me')
 
     client.run(TOKEN)    

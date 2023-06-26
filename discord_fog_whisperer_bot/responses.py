@@ -5,7 +5,7 @@ import bot
 def on_message(message): 
     username = message.author.mention # Retrieving username
 
-    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n <---------- Game Related Commands ----------> \n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur\n\n**See you in the fog!**')    
+    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n <---------- Game Related Commands ----------> \n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur \n\n**Please keep in mind that the bot does not interact with the game in any way, it doesnt add or change anything in the game itself**\n\n**See you in the fog!**')    
     return response 
 
 def randSurvPerksDefault(message):
@@ -91,7 +91,7 @@ def randKillerPerksDefault(message):
 
 def Wiki(message):
     username = message.author.mention # Retrieving username
-    response = (f"{username} \n\nEverything about Dead By Daylight is coming straight from the game's wiki: https://deadbydaylight.fandom.com/wiki/Dead_by_Daylight_Wiki")
+    response = (f"{username} \n\nEverything about Dead By Daylight is coming straight from the game's wiki:\nhttps://deadbydaylight.fandom.com/wiki/Dead_by_Daylight_Wiki")
     return response
 
 def perkList():
@@ -171,7 +171,6 @@ def perkListKiller():
 
     return response
 
-
 def randBuildSurvDefault(message):
     survivorList = [
         "Dwight Fairfield",
@@ -240,7 +239,6 @@ def randBuildSurvDefault(message):
     return response
 
 def randBuildKillerDefault(message):
-
     killerList = [
         "Trapper",
         "Wraith",

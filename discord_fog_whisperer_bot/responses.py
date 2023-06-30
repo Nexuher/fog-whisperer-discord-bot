@@ -2,7 +2,7 @@ import random
 import discord 
 import bot
 
-def on_message(message): 
+def on_message(message):
     username = message.author.mention # Retrieving username
 
     response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n <---------- Game Related Commands ----------> \n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur \n\n**Please keep in mind that the bot does not interact with the game in any way, it doesnt add or change anything in the game itself**\n\n**See you in the fog!**')    
@@ -94,68 +94,53 @@ def Wiki(message):
     response = (f"{username} \n\nEverything about Dead By Daylight is coming straight from the game's wiki:\nhttps://deadbydaylight.fandom.com/wiki/Dead_by_Daylight_Wiki")
     return response
 
-def perkList():
+def perkList(isKiller):
     response = ""
 
-    possibleResponses = [
-        'Dark Sense',
-        'Déjà Vu',
-        'Guardian',
-        'Hope',
-        'Inner Healing',
-        'Kindred',
-        'Kinship',
-        'Lightweight',
-        'No One Left Behind',
-        'Plunderer`s Instinct',
-        'Premonition',
-        'Renewal',
-        'Resilience',
-        'Self-Aware',
-        'Situational Awareness',
-        'Slippery Meat',
-        'Small Game',
-        'Spine Chill',
-        'This Is Not Happening',
-        'We`ll Make It'
-    ]
+    if isKiller == True:
 
-    for x in range(4):
-        sizeAfterDeleting = len(possibleResponses) - 1
-
-        perkNumber = random.randint(0, sizeAfterDeleting) # Randomising a number in list, to pick a perk
-
-        response += "-> " + possibleResponses[perkNumber] + "\n"
-
-        possibleResponses.remove(possibleResponses[perkNumber]) # Removing added items in case the number would duplicate
-        sizeAfterDeleting -= 1
-
-        x += 1
-
-    return response
-
-def perkListKiller():
-    response = ""
-
-    possibleResponses = [
-        'Bitter Murmur',
-        'Claustrophobia',
-        'Deerstalker',
-        'Distressing',
-        'Fearmonger',
-        'Hex: No One Escapes Death',
-        'Hex: Thrill of the Hunt',
-        'Insidious',
-        'Iron Grasp',
-        'Jolt',
-        'Monstrous Shrine',
-        'Scourge Hook',
-        'Shattered Hope',
-        'Sloppy Butcher',
-        'Spies from the Shadows',
-        'Unrelenting',
-        'Whispers',
-    ]
+        possibleResponses = [
+            'Dark Sense',
+            'Déjà Vu',
+            'Guardian',
+            'Hope',
+            'Inner Healing',
+            'Kindred',
+            'Kinship',
+            'Lightweight',
+            'No One Left Behind',
+            'Plunderer`s Instinct',
+            'Premonition',
+            'Renewal',
+            'Resilience',
+            'Self-Aware',
+            'Situational Awareness',
+            'Slippery Meat',
+            'Small Game',
+            'Spine Chill',
+            'This Is Not Happening',
+            'We`ll Make It'
+        ]
+    else:
+        possibleResponses = [
+            'Bitter Murmur',
+            'Claustrophobia',
+            'Deerstalker',
+            'Distressing',
+            'Fearmonger',
+            'Hex: No One Escapes Death',
+            'Hex: Thrill of the Hunt',
+            'Insidious',
+            'Iron Grasp',
+            'Jolt',
+            'Monstrous Shrine',
+            'Scourge Hook',
+            'Shattered Hope',
+            'Sloppy Butcher',
+            'Spies from the Shadows',
+            'Unrelenting',
+            'Whispers',
+        ]
 
     for x in range(4):
         sizeAfterDeleting = len(possibleResponses) - 1
@@ -234,7 +219,7 @@ def randBuildSurvDefault(message):
     if chosenItem == "No Item":
         chosenRarity= "No item, then no addons duh ¯\_(ツ)_/¯"
 
-    response = (f"**Character**: {chosenSurvivor}\n**Perks**:\n{perkList()}\n**Item**: {chosenRarity} {chosenItem}\n**Addons**: {chosenRarity} {rarity_list[random.randint(1, len(rarity_list) - 1)]}")
+    response = (f"**Character**: {chosenSurvivor}\n**Perks**:\n{perkList(True)}\n**Item**: {chosenRarity} {chosenItem}\n**Addons**: {chosenRarity} {rarity_list[random.randint(1, len(rarity_list) - 1)]}")
 
     return response
 
@@ -284,9 +269,43 @@ def randBuildKillerDefault(message):
     chosenKiller = killerList[random.randint(1, len(killerList) - 1)]
     chosenRarity = rarity_list[random.randint(1, len(rarity_list) - 1)]
 
-    response = (f"**Character**: {chosenKiller}\n**Perks**:\n{perkListKiller()}\n**Addons**: {chosenRarity} {rarity_list[random.randint(1, len(rarity_list) - 1)]}")
+    response = (f"**Character**: {chosenKiller}\n**Perks**:\n{perkList(False)}\n**Addons**: {chosenRarity} {rarity_list[random.randint(1, len(rarity_list) - 1)]}")
 
     return response
+
+def randBuildSurvDefault(message):
+    username = message.author.mention
+
+    realmList = [
+        "The MacMillan Estate",
+        "Autohaven Wreckers",
+        "Coldwind Farm",
+        "Crotus Prenn Asylum",
+        "Haddonfield",
+        "Backwater Swamp",
+        "Léry's Memorial Institute",
+        "Red Forest",
+        "Springwood",
+        "Gideon Meat Plant",
+        "Yamaoka Estate",
+        "Ormond",
+        "Grave of Glenvale",
+        "Silent Hill",
+        "Raccoon City",
+        "Forsaken Boneyard",
+        "Withered Isle",
+        "The Decimated Borgo",
+        "Dvarka Deepwood",
+    ]
+
+    chosenMapOffering = realmList[random.randint(1, len(realmList) - 1)]
+
+    response = (f"{username}\n\nThe Realm Map for this game will be:\n**{chosenMapOffering}\nhttps://deadbydaylight.fandom.com/wiki/**")
+
+    return response
+
+def randPerkWiki(message):
+    response = "In Progress currently"
 
 def handle_response(message) -> str:
     p_message = message.content.lower()
@@ -325,5 +344,9 @@ def handle_response(message) -> str:
         
         case '!fw-randbuildkiller':
             return randBuildKillerDefault(message)
+        case '!fw-randmapoffering':
+            return randBuildSurvDefault(message)
+        case '!fw-perkwiki':
+            return randBuildSurvDefault(message)
     
     return 'incorrect command'

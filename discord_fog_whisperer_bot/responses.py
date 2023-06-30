@@ -5,7 +5,7 @@ import bot
 def on_message(message):
     username = message.author.mention # Retrieving username
 
-    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n <---------- Game Related Commands ----------> \n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur \n\n**Please keep in mind that the bot does not interact with the game in any way, it doesnt add or change anything in the game itself**\n\n**See you in the fog!**')    
+    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n<---------- Game Related Commands ---------->\n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n-> perkWiki(What you are looking for)\n-> randMapOffering \n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur \n\n**Please keep in mind that the bot does not interact with the game in any way, it doesnt add or change anything in the game itself**\n\n**See you in the fog!**')    
     return response 
 
 def randSurvPerksDefault(message):
@@ -300,15 +300,21 @@ def randBuildSurvDefault(message):
 
     chosenMapOffering = realmList[random.randint(1, len(realmList) - 1)]
 
-    response = (f"{username}\n\nThe Realm Map for this game will be:\n**{chosenMapOffering}\nhttps://deadbydaylight.fandom.com/wiki/**")
+    response = (f"{username}\n\nThe Realm Map for this game will be:\n**{chosenMapOffering}**")
 
     return response
 
-def randPerkWiki(message):
-    response = "In Progress currently"
+def perkWiki(messageContext):
+    response = "https://deadbydaylight.fandom.com/wiki/"
+    splitedArgList =  messageContext.split()
+
+    for elem in splitedArgList:
+        response += elem + "_"
+
+    return response[:-1]
 
 def handle_response(message) -> str:
-    p_message = message.content.lower()
+    p_message = message.content
 
     match p_message:
         case '!fw-hello':
@@ -330,23 +336,26 @@ def handle_response(message) -> str:
         case '!fw-help':
             return on_message(message)
         
-        case '!fw-randsurvperksdefault':
+        case '!fw-randSurvPerksDefault':
             return randSurvPerksDefault(message)
         
-        case '!fw-randkillerperksdefault':
+        case '!fw-randKillerPerksDefault':
             return randKillerPerksDefault(message)
         
-        case '!fw-wiki':
+        case '!fw-Wiki':
             return Wiki(message)
         
-        case '!fw-randbuildsurvivor':
+        case '!fw-randBuildSurvivor':
             return randBuildSurvDefault(message)
         
-        case '!fw-randbuildkiller':
+        case '!fw-randBuildKiller':
             return randBuildKillerDefault(message)
-        case '!fw-randmapoffering':
+        
+        case '!fw-randMapOffering':
             return randBuildSurvDefault(message)
-        case '!fw-perkwiki':
-            return randBuildSurvDefault(message)
+        
+    if p_message.startswith('!fw-WikiInfo '):
+        argument = p_message.split(' ', 1)[1]
+        return perkWiki(argument)
     
     return 'incorrect command'

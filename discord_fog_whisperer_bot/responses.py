@@ -1,6 +1,5 @@
 import random
-import discord 
-import bot
+from webrequesthandler import *
 
 def on_message(message):
     username = message.author.mention # Retrieving username
@@ -306,15 +305,20 @@ def randBuildSurvDefault(message):
 
 def perkWiki(messageContext):
     response = "https://deadbydaylight.fandom.com/wiki/"
-    splitedArgList =  messageContext.split()
+    arguments =  messageContext.split()
 
-    for elem in splitedArgList:
+    for elem in arguments:
         response += elem + "_"
 
-    return response[:-1]
+    response = response[:-1]
+
+    if verify_wiki_link(response):
+        return response
+    else:
+        return "Wiki article not found"
 
 def handle_response(message) -> str:
-    p_message = message.content
+    p_message = message.content.lower()
 
     match p_message:
         case '!fw-hello':
@@ -354,7 +358,7 @@ def handle_response(message) -> str:
         case '!fw-randMapOffering':
             return randBuildSurvDefault(message)
         
-    if p_message.startswith('!fw-WikiInfo '):
+    if p_message.startswith('!fw-wikiinfo '):
         argument = p_message.split(' ', 1)[1]
         return perkWiki(argument)
     

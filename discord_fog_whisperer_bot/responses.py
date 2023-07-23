@@ -1,11 +1,35 @@
 import random
+import reminder
 from webrequesthandler import *
 
-def on_message(message):
+
+def help(message):
     username = message.author.mention # Retrieving username
 
-    response = (f'**Welcome {username}!**\n\nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!\n\nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:\n<---------- Simple Commands ---------->\n-> hello\n-> roll\n-> roll-4\n<---------- Game Related Commands ---------->\n-> randSurvPerksDefault\n-> randKillerPerksDefault\n-> RandBuildSurvivor\n-> RandBuildKiller\n-> perkWiki(What you are looking for)\n-> randMapOffering \n<---------- Creation Related ---------->\n-> Wiki\n\nGo ahead! Try asking me to `!fw-roll`, please keep in mind that Im still in development, which means that some bugs might occur \n\n**Please keep in mind that the bot does not interact with the game in any way, it doesnt add or change anything in the game itself**\n\n**See you in the fog!**')    
+    response= f'''
+        **Welcome {username}!**
+        \nMy name is Fog Whisperer and I will be assisting you in your gameplay in Dead By Daylight!
+        \nYou can use me by starting the command with "**!fw-**" and following it with you request, my current commands are:
+        \n## Simple Commands
+        \n- hello
+        \n- roll
+        \n- roll-4
+        \n- add_reminder (in progress, format is -> year month day hour minute [info_for_reminder])
+        \n    (f.e !fw-add_reminder 2023 10 20 15:20 Go to the gym)
+        \n## Game Related Commands
+        \n- randSurvPerksDefault\n- randKillerPerksDefault\n- RandBuildSurvivor\n- RandBuildKiller\n- perkWiki(What you are looking for)\n- randMapOffering 
+        \n## Creation Related
+        \n- Wiki
+        \n\nGo ahead! Try asking me to 
+        ```!fw-roll```
+        \nPlease keep in mind that Im still in development, which means that some bugs might occur 
+        **The bot also does not interact with the game in any way, it doesnt add or change anything in the game itself**
+        \n**See you in the fog!**
+
+    '''
+    
     return response 
+
 
 def randSurvPerksDefault(message):
     username = message.author.mention # Retrieving username
@@ -49,6 +73,7 @@ def randSurvPerksDefault(message):
 
     return response
 
+
 def randKillerPerksDefault(message):
     username = message.author.mention # Retrieving username
     
@@ -88,10 +113,12 @@ def randKillerPerksDefault(message):
 
     return response
 
+
 def Wiki(message):
     username = message.author.mention # Retrieving username
     response = (f"{username} \n\nEverything about Dead By Daylight is coming straight from the game's wiki:\nhttps://deadbydaylight.fandom.com/wiki/Dead_by_Daylight_Wiki")
     return response
+
 
 def perkList(isKiller):
     response = ""
@@ -155,7 +182,8 @@ def perkList(isKiller):
 
     return response
 
-def randBuildSurvDefault(message):
+
+def randBuildSurvivor(message):
     survivorList = [
         "Dwight Fairfield",
         "Meg Thomas",
@@ -216,13 +244,14 @@ def randBuildSurvDefault(message):
     chosenRarity = rarity_list[random.randint(1, len(rarity_list) - 1)]
 
     if chosenItem == "No Item":
-        chosenRarity= "No item, then no addons duh ¯\_(ツ)_/¯"
+        chosenRarity = "No item, then no addons duh ¯\_(ツ)_/¯"
 
     response = (f"**Character**: {chosenSurvivor}\n**Perks**:\n{perkList(True)}\n**Item**: {chosenRarity} {chosenItem}\n**Addons**: {chosenRarity} {rarity_list[random.randint(1, len(rarity_list) - 1)]}")
 
     return response
 
-def randBuildKillerDefault(message):
+
+def randBuildKiller(message):
     killerList = [
         "Trapper",
         "Wraith",
@@ -272,7 +301,8 @@ def randBuildKillerDefault(message):
 
     return response
 
-def randBuildSurvDefault(message):
+
+def randMapOffering(message):
     username = message.author.mention
 
     realmList = [
@@ -303,9 +333,10 @@ def randBuildSurvDefault(message):
 
     return response
 
-def perkWiki(messageContext):
+
+def perkWiki(perk_name):
     response = "https://deadbydaylight.fandom.com/wiki/"
-    arguments =  messageContext.split()
+    arguments =  perk_name.split()
 
     for elem in arguments:
         response += elem + "_"
@@ -317,49 +348,15 @@ def perkWiki(messageContext):
     else:
         return "Wiki article not found"
 
-def handle_response(message) -> str:
-    p_message = message.content.lower()
 
-    match p_message:
-        case '!fw-hello':
-            return 'Hey There!'
-        
-        case '!fw-roll':
-            return str(random.randint(1,6))
-        
-        case '!fw-roll-4':
-            returnValue = ""
-
-            for x in range(6):
-                randNumber =  str(random.randint(1,6))
-                returnValue += randNumber + " "
-                x += 1
-
-            return returnValue  
-        
-        case '!fw-help':
-            return on_message(message)
-        
-        case '!fw-randSurvPerksDefault':
-            return randSurvPerksDefault(message)
-        
-        case '!fw-randKillerPerksDefault':
-            return randKillerPerksDefault(message)
-        
-        case '!fw-Wiki':
-            return Wiki(message)
-        
-        case '!fw-randBuildSurvivor':
-            return randBuildSurvDefault(message)
-        
-        case '!fw-randBuildKiller':
-            return randBuildKillerDefault(message)
-        
-        case '!fw-randMapOffering':
-            return randBuildSurvDefault(message)
-        
-    if p_message.startswith('!fw-wikiinfo '):
-        argument = p_message.split(' ', 1)[1]
-        return perkWiki(argument)
+def add_new_reminder(message, year: str, month: str, day: str, hour: str, minute: str, info: str):
+    user_name = message.author.global_name
     
-    return 'incorrect command'
+    reminder_date = reminder.create_datetime(year, month, day, hour, minute)
+    reminder_info = info
+    user_id = message.author.id
+    channel_id = message.channel.id
+
+    reminder.add_data_to_json(user_name, reminder_date, reminder_info, user_id, channel_id)
+
+    return True
